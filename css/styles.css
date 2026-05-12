@@ -16,8 +16,10 @@
 	--secondary-font-family: "Raleway";
 	
 	
-	--gap: 24px;
+	--column-gap: 24px;
+	--row-gap:var(--column-gap);
 }
+
 
 body {
 	font-family: var(--main-font-family), sans-serif;
@@ -83,12 +85,14 @@ button {
 
 button:hover {
 	--iris: var(--ocean);
+	transition: background-color cubic-bezier(0.4, 0, 0.2, 1) 250ms;
 }
 
 a {
 	text-decoration: none;
 	letter-spacing: 0.02em;
 	color: inherit;
+	transition: background-color cubic-bezier(0.4, 0, 0.2, 1) 250ms;
 }
 
 img {
@@ -116,7 +120,25 @@ header address {
 
 nav .flex, address .flex {
 	grid-gap: 40px;
-	
+}
+
+nav .current {
+	position: relative;
+}
+
+nav .current a {
+	color: var(--ocean);
+}
+
+nav .current:after {
+	content: '';
+	width: 100%;
+	height: 4px;
+	border-radius: 2px;
+	background-color: var(--ocean);
+	left: 0;
+	bottom: -25px;
+	position: absolute;
 }
 
 .container {
@@ -126,7 +148,28 @@ nav .flex, address .flex {
 }
 
 .hero {
-	padding-block: 188px;
+	padding-block: 176px;
+	background-image: url(../images/people-office.webp);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 1440px auto;
+	position: relative;
+}
+
+.hero > * {
+	position: relative;
+	z-index: 3;
+}
+
+.hero:before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #2E2F42B2;
+	left: 0;
+	top: 0;
+	
 }
 
 .section {
@@ -147,17 +190,18 @@ nav .flex, address .flex {
 
 [class*="flex-items-"] {
 	flex-wrap: wrap;
-	grid-gap: var(--gap);
+	row-gap: var(--row-gap);
+	column-gap: var(--column-gap);
 	flex-grow: 0;
 	flex-shrink: 1;
 }
 
 .flex-items-1-3 > * {
-	width: calc((100% - 2 * var(--gap)) / 3);
+	width: calc((100% - 2 * var(--column-gap)) / 3);
 }
 
 .flex-items-1-4 > * {
-	width: calc((100% - 3 * var(--gap)) / 4);
+	width: calc((100% - 3 * var(--column-gap)) / 4);
 }
 
 .logo {
@@ -184,6 +228,36 @@ nav .flex, address .flex {
 	margin-block-start: 8px;
 }
 
+.icon-container {
+	background-color: var(--cloud);
+	border: 1px solid var(--light-slate);
+	text-align: center;
+	padding-block: 24px;
+	border-radius: 4px;
+	margin-block-end: 8px;
+}
+
+.node-social-icons {
+	display: flex;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	grid-gap: 16px;
+}
+
+.node-social-icons a {
+	display: flex;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	padding: 12px;
+	background-color: var(--iris);
+}
+
+.node-social-icons a:hover, .node-social-icons a:focus {
+	background-color: var(--ocean);
+}
+
 .team {
 	background-color: var(--cloud);
 }
@@ -205,19 +279,53 @@ nav .flex, address .flex {
 	margin-block-start: 8px;
 }
 
+.team-card .node-social-icons {
+	justify-content: space-between;
+	margin-block-start: 8px;
+}
+
 .team-card, .portfolio-card {
 	background-color: var(--white);
 }
 
 .portfolio {
-	--gap: 48px 24px;
+	--row-gap: 48px;
 }
 
-.portfolio-card div {
+.portfolio-card {
+	transition: box-shadow cubic-bezier(0.4, 0, 0.2, 1) 250ms;
+}
+
+.portfolio-card .portfolio-card-overlay-container {
+	position: relative;
+	overflow: hidden;
+}
+.portfolio-card .portfolio-card-overlay {
+	transform: translateY(100%);
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: transform cubic-bezier(0.4, 0, 0.2, 1) 250ms;
+	color: #fff;
+	background-color: var(--iris);
+	width: 100%;
+	height: 100%;
+	padding: 40px 32px 40px 32px;
+}
+
+.portfolio-card .portfolio-card-body {
 	padding: 32px 16px;
 	border-width: 0 1px 1px 1px;
 	border-style: solid;
 	border-color: #E7E9FC;
+}
+
+.portfolio-card:hover {
+	box-shadow: 0 1px 6px rgba(46, 47, 66, 0.08), 0 1px 1px rgba(46, 47, 66, 0.16), 0 2px 1px rgba(46, 47, 66, 0.08);
+}
+
+.portfolio-card:hover .portfolio-card-overlay {
+	transform:translateY(0);
 }
 
 .team-card {
@@ -246,4 +354,13 @@ footer .logo {
 footer p {
 	max-width: 264px;
 	margin-block-start: 16px;
+}
+
+footer .container > .flex {
+	align-items: start;
+	grid-gap: 120px;
+}
+
+footer .col-2 p {
+	margin-block: 0 8px;
 }
